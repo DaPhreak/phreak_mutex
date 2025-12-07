@@ -1,4 +1,4 @@
-#include "mutex/recursive_shared_mutex.h"
+#include "phreak_mutex/recursive_shared_mutex.h"
 
 #include <assert.h>
 #include <vector>
@@ -14,7 +14,7 @@ public:
 
     static LocalLocks& Instance();
 
-    Iter get( const mutex::recursive_shared_mutex* instance );
+    Iter get( const phreak_mutex::recursive_shared_mutex* instance );
     void erase( Iter iterator );
 private:
     LocalLocks() = default;
@@ -32,7 +32,7 @@ LocalLocks& LocalLocks::Instance()
     return res;
 }
 
-LocalLocks::Iter LocalLocks::get( const mutex::recursive_shared_mutex* instance )
+LocalLocks::Iter LocalLocks::get( const phreak_mutex::recursive_shared_mutex* instance )
 {
     if ( auto iterator{
         std::find_if( mList.rbegin(), mList.rend(),
@@ -56,7 +56,7 @@ LocalLocks::~LocalLocks() noexcept
 
 } // namespace
 
-namespace mutex {
+namespace phreak_mutex {
 
 void recursive_shared_mutex::lock() noexcept
 {
@@ -142,6 +142,6 @@ bool recursive_shared_mutex::try_lock_shared() noexcept
     return true;
 }
 
-} // mutex
+} // phreak_mutex
 
 

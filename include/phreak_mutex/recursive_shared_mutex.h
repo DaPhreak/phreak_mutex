@@ -2,7 +2,7 @@
 
 #include <shared_mutex>
 
-namespace mutex {
+namespace phreak_mutex {
 
 class recursive_shared_mutex {
 public:
@@ -24,4 +24,4 @@ private:
     std::shared_mutex mMutex{};
 };
 
-} // namespace mutex
+} // namespace phreak_mutex

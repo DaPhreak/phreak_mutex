@@ -1,4 +1,4 @@
-#include "mutex/recursive_shared_mutex.h"
+#include "phreak_mutex/recursive_shared_mutex.h"
 
 #include <catch2/catch_test_macros.hpp>
 
@@ -8,7 +8,7 @@ namespace {
 
 TEST_CASE("Lock one thread", "[recursive_shared_mutex]")
 {
-    mutex::recursive_shared_mutex mutex{};
+    phreak_mutex::recursive_shared_mutex mutex{};
     std::shared_lock l1{ mutex };
     {
         std::shared_lock l2{ mutex };
@@ -26,7 +26,7 @@ TEST_CASE("Lock one thread", "[recursive_shared_mutex]")
 TEST_CASE("Lock multiple threads", "[recursive_shared_mutex]")
 {
     constexpr size_t ThreadNr{100};
-    mutex::recursive_shared_mutex mutex{};
+    phreak_mutex::recursive_shared_mutex mutex{};
 
     std::vector<std::thread> threads;
     threads.reserve( ThreadNr );

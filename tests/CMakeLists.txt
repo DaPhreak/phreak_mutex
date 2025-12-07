@@ -1,6 +1,6 @@
 cmake_minimum_required( VERSION 3.28 FATAL_ERROR )
 
-project( mutex_tests
+project( phreak_mutex_tests
 	VERSION 0.1.0
 	DESCRIPTION ""
 	LANGUAGES CXX
@@ -30,7 +30,7 @@ target_include_directories( ${PROJECT_NAME} PRIVATE
 
 target_link_libraries( ${PROJECT_NAME} PRIVATE
     Catch2::Catch2WithMain
-    mutex
+    phreak_mutex
 )
 
 list( APPEND CMAKE_MODULE_PATH ${catch2_SOURCE_DIR}/extras )
