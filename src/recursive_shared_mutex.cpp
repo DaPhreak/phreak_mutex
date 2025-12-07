@@ -39,7 +39,7 @@ LocalLocks::Iter LocalLocks::get( const mutex::recursive_shared_mutex* instance 
         [&] ( const Entry& entry ) { return entry.first == instance; } ) };
         iterator != mList.rend() )
     {
-        return ( iterator + 1 ).base();
+        return ( ++iterator ).base();
     }
     return mList.emplace( mList.end(), instance, 0 ); 
 }
