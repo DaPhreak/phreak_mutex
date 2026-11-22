@@ -24,6 +24,31 @@ TEST_CASE("Lock one thread", "[recursive_shared_mutex]")
     }
 }
 
+
+TEST_CASE("Lock two threads", "[recursive_shared_mutex]")
+{
+    phreak_mutex::recursive_shared_mutex mutex{};
+    {
+        std::shared_lock l1{ mutex };
+        std::thread thread{[&]()
+        {
+            REQUIRE ( mutex.try_lock_shared() );
+            mutex.unlock_shared();
+            REQUIRE_FALSE ( mutex.try_lock() );
+        }};
+        thread.join();
+    }
+    {
+        std::scoped_lock l1{ mutex };
+        std::thread thread{[&]()
+        {
+            REQUIRE_FALSE ( mutex.try_lock_shared() );
+            REQUIRE_FALSE ( mutex.try_lock() );
+        }};
+        thread.join();
+    }
+}
+
 TEST_CASE("Lock multiple threads", "[recursive_shared_mutex]")
 {
     constexpr size_t ThreadNr{100};
