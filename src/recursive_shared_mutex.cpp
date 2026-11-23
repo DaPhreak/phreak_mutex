@@ -1,9 +1,10 @@
 #include "phreak_mutex/recursive_shared_mutex.h"
 
-#include <assert.h>
+#include <cassert>
 #include <algorithm>
 #include <exception>
 #include <vector>
+#include <utility>
 
 namespace {
 
@@ -19,8 +20,7 @@ public:
     [[nodiscard]] bool try_lock_shared( std::shared_mutex& mutex ) noexcept;
 
 private:
-    using Count = std::make_signed_t<size_t>;
-    using Entry = std::pair<const void*,Count>;
+    using Entry = std::pair<const void*,int>;
     using List  = std::vector<Entry>;
     using Iter  = List::iterator;
 
@@ -123,12 +123,8 @@ recursive_shared_mutex_impl::Iter recursive_shared_mutex_impl::find( const std::
 
 recursive_shared_mutex_impl::Entry& recursive_shared_mutex_impl::make( const std::shared_mutex& mutex )
 {
-    if ( auto rit{
-        std::find_if( mList.rbegin(), mList.rend(),
-        [&] ( const Entry& entry ) { return entry.first == &mutex; } ) };
-        rit != mList.rend() )
-    {
-        return *rit;
+    if ( auto it{ find( mutex ) }; it != mList.end() ) {
+        return *it;
     }
     return mList.emplace_back( &mutex, 0 ); 
 }
